@@ -43,9 +43,6 @@ public abstract class LivingEntityMixin extends Entity {
 		shouldAppearBlocking = true;
 		if(item instanceof SwordItem && this.isUsingItem() && this.blockedByShield(cached)) {
 			double multiplier = BetterParryMod.getBetterParryMod().config.multiplier;
-			for(BetterParryMod.OverrideValue v : BetterParryMod.getBetterParryMod().config.overrides) {
-				if(item == v.getItem()) multiplier = v.multiplier;
-			}
 			old *= multiplier;
 		}
 		shouldAppearBlocking = false;

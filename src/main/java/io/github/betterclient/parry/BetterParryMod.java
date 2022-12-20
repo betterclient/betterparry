@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBind;
-import net.minecraft.item.Item;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -50,14 +49,5 @@ public class BetterParryMod implements ModInitializer {
 			if(bind.isPressed())
 				MinecraftClient.getInstance().setScreen(new ConfigScreen(config));
 		});
-	}
-
-	public static class OverrideValue {
-		public String item;
-		public double multiplier;
-
-		public Item getItem() {
-			return Registry.ITEM.get(Identifier.tryParse(this.item));
-		}
 	}
 }
