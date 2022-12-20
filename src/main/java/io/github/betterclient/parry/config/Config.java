@@ -12,8 +12,6 @@ public class Config {
 	public boolean shouldProiritirizeShield = false;
 	public boolean animationVersion = false; //False for 1.7, true for 1.8(no swing)
 
-	public BetterParryMod.OverrideValue[] overrides = new BetterParryMod.OverrideValue[] {};
-
 	public static Config load() throws IOException {
 		var configFile = QuiltLoader.getConfigDir().resolve("betterparry.json");
 		var gson = new Gson();

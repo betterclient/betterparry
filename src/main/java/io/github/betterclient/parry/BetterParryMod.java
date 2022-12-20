@@ -9,15 +9,20 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.option.KeyBind;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.SwordItem;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class BetterParryMod implements ModInitializer {
 	public static final Logger LOGGER = LoggerFactory.getLogger("BetterParry");
@@ -29,11 +34,23 @@ public class BetterParryMod implements ModInitializer {
 	public static BetterParryMod getBetterParryMod() {
 		return betterParryMod;
 	}
+	public static List<Item> items = new java.util.ArrayList<>();
 
 	public BetterParryMod() {betterParryMod = this;}
 
 	@Override
 	public void onInitialize(ModContainer mod) {
+		for(Field f : Items.class.getFields()) {
+			Object output = null;
+			try {
+				output = f.get(null);
+			} catch (IllegalAccessException ignored) { }
+
+			if(output instanceof Item) {
+				items.add((Item) output);
+			}
+		}
+
 		try {
 			config = Config.load();
 		} catch (IOException e) {
@@ -41,23 +58,16 @@ public class BetterParryMod implements ModInitializer {
 		}
 		KeyBindingHelper.registerKeyBinding(bind);
 		LOGGER.info("Starting Mod! {}", mod.metadata().name());
-		Registry.ITEM.forEach((item) -> {
+
+		items.forEach((item) -> {
 			if (item instanceof SwordItem) {
 				ModelPredicateProviderRegistry.register (item, new Identifier("parrying"), (stack, world, entity, i) -> (entity != null && entity.isUsingItem() && entity.getActiveItem() == stack) ? 1.0F: 0.0F);
 			}
 		});
+
 		HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
 			if(bind.isPressed())
 				MinecraftClient.getInstance().setScreen(new ConfigScreen(config));
 		});
-	}
-
-	public static class OverrideValue {
-		public String item;
-		public double multiplier;
-
-		public Item getItem() {
-			return Registry.ITEM.get(Identifier.tryParse(this.item));
-		}
 	}
 }

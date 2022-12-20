@@ -42,10 +42,10 @@ public class ConfigScreen extends Screen {
 
 	@Override
 	protected void init() {
-		buttonWidget = new ButtonWidget(width / 2 - 100, 100, 200, 20, Text.literal("Animation Version: " + (config.animationVersion ? "1.8" : "1.7")), buttonWidget -> {
+		buttonWidget = ButtonWidget.builder(Text.literal("Animation Version: " + (config.animationVersion ? "1.8" : "1.7")), buttonWidget1 -> {
 			buttonWidget.setMessage(Text.literal("Animation Version: " + (config.animationVersion ? "1.7" : "1.8")));
 			config.animationVersion = !config.animationVersion;
-		});
+		}).width(200).position(width / 2 - 100, 100).build();
 
 		widget = new CheckboxWidget(width / 2 - 100, 130, 200, 20, Text.literal("Should Prioritize Shield"), config.shouldProiritirizeShield) {
 			@Override
