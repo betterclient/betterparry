@@ -1,6 +1,8 @@
 package io.github.betterclient.parry.mixin;
 
+import io.github.betterclient.parry.BetterParryFabric;
 import io.github.betterclient.parry.BetterParryMod;
+import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,8 +22,10 @@ public class ItemMixin {
 	@Inject(at = @At(value = "HEAD"), method = "use", cancellable = true)
 	public void onUseItem(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> cir) {
 		var stack = user.getStackInHand(hand);
+		var isQuilt = ClientBrandRetriever.getClientModName().startsWith("quilt");
+		var cfg = isQuilt ? BetterParryMod.getBetterParryMod().config : BetterParryFabric.getBetterParryMod().config;
 		if(stack.getItem() instanceof SwordItem) { //Check if we have sword on hand
-			boolean requireShield = BetterParryMod.getBetterParryMod().config.shouldProiritirizeShield;
+			boolean requireShield = cfg.shouldProiritirizeShield;
 
 			if(user.getStackInHand(Hand.OFF_HAND).getItem() instanceof ShieldItem && requireShield) {
 				user.setCurrentHand(Hand.OFF_HAND);
@@ -29,7 +33,7 @@ public class ItemMixin {
 			}
 			user.setCurrentHand(hand);
 			user.setSprinting(false);
-			if(BetterParryMod.getBetterParryMod().config.animationVersion) {
+			if(cfg.animationVersion) {
 				cir.setReturnValue(TypedActionResult.pass(stack));
 			}
 			else {

@@ -1,7 +1,9 @@
 package io.github.betterclient.parry.mixin;
 
+import io.github.betterclient.parry.BetterParryFabric;
 import io.github.betterclient.parry.BetterParryMod;
 import io.github.betterclient.parry.config.Config;
+import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,7 +17,7 @@ public class MinecraftMixin {
 	@Inject(method = "stop", at = @At("HEAD"))
 	public void onClose(CallbackInfo ci) { //SaveConfig
 		try {
-			Config.save(BetterParryMod.getBetterParryMod().config);
+			Config.save(ClientBrandRetriever.getClientModName().startsWith("quilt") ? BetterParryMod.getBetterParryMod().config : BetterParryFabric.getBetterParryMod().config);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

@@ -1,7 +1,10 @@
 package io.github.betterclient.parry.config;
 
 import com.google.gson.Gson;
+import io.github.betterclient.parry.BetterParryFabric;
 import io.github.betterclient.parry.BetterParryMod;
+import net.fabricmc.loader.FabricLoader;
+import net.minecraft.client.ClientBrandRetriever;
 import org.quiltmc.loader.api.QuiltLoader;
 
 import java.io.IOException;
@@ -13,7 +16,8 @@ public class Config {
 	public boolean animationVersion = false; //False for 1.7, true for 1.8(no swing)
 
 	public static Config load() throws IOException {
-		var configFile = QuiltLoader.getConfigDir().resolve("betterparry.json");
+		var isQuilt = ClientBrandRetriever.getClientModName().startsWith("quilt");
+		var configFile = isQuilt ? QuiltLoader.getConfigDir().resolve("betterparry.json") : FabricLoader.INSTANCE.getConfigDir().resolve("betterparry.json");
 		var gson = new Gson();
 		if (!Files.exists(configFile)) {
 			save(new Config());

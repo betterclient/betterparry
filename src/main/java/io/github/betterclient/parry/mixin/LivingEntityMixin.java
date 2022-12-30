@@ -1,6 +1,8 @@
 package io.github.betterclient.parry.mixin;
 
+import io.github.betterclient.parry.BetterParryFabric;
 import io.github.betterclient.parry.BetterParryMod;
+import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -39,10 +41,12 @@ public abstract class LivingEntityMixin extends Entity {
 
 	@ModifyVariable(method = "damage", at = @At("HEAD"), index = 2, argsOnly = true)
 	private float makeSwordBlockingBlockDamange(float old) {
+		var isQuilt = ClientBrandRetriever.getClientModName().startsWith("quilt");
+		var cfg = isQuilt ? BetterParryMod.getBetterParryMod().config : BetterParryFabric.getBetterParryMod().config;
 		var item = this.activeItemStack.getItem();
 		shouldAppearBlocking = true;
 		if(item instanceof SwordItem && this.isUsingItem() && this.blockedByShield(cached)) {
-			double multiplier = BetterParryMod.getBetterParryMod().config.multiplier;
+			double multiplier = cfg.multiplier;
 			old *= multiplier;
 		}
 		shouldAppearBlocking = false;

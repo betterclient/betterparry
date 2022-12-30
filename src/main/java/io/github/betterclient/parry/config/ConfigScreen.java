@@ -65,7 +65,6 @@ public class ConfigScreen extends Screen {
 		addDrawableChild(sliderWidget);
 	}
 
-	@Override
 	@SuppressWarnings("all") //Fuck the warning
 	public List<ClickableWidget> getButtons() {
 		try {
@@ -81,15 +80,13 @@ public class ConfigScreen extends Screen {
 
 		return null;
 	}
-	@Override
+
 	public ItemRenderer getItemRenderer() {
 		return this.itemRenderer;
 	}
-	@Override
 	public TextRenderer getTextRenderer() {
 		return this.textRenderer;
 	}
-	@Override
 	public MinecraftClient getClient() {
 		return this.client;
 	}

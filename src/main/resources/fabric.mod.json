@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "group": "io.github.betterclient",
+  "id": "betterparry",
+  "version": "${version}",
+  "metadata": {
+    "name": "Better Parry",
+    "description": "Allows you to blockhit in modern minecraft!, A Continuation of the mod \"parry\" ",
+    "contributors": {
+      "betterclient": "Owner"
+    },
+    "contact": {
+      "homepage": "",
+      "issues": "https://github.com/betterclient/betterparry/issues",
+      "sources": "https://github.com/betterclient/betterparry"
+    },
+    "icon": "assets/betterparry/icon.png"
+  },
+  "entrypoints": {
+    "main": [
+      "io.github.betterclient.parry.BetterParryFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.11",
+    "fabric-api": "*",
+    "minecraft": "~1.19.2",
+    "java": ">=17"
+  },
+  "mixins": [
+    "betterparry.mixins.json"
+  ]
+}
