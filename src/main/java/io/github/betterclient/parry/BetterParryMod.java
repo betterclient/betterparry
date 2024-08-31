@@ -61,7 +61,7 @@ public class BetterParryMod implements ModInitializer {
 
 		items.forEach((item) -> {
 			if (item instanceof SwordItem) {
-				ModelPredicateProviderRegistry.register (item, new Identifier("parrying"), (stack, world, entity, i) -> (entity != null && entity.isUsingItem() && entity.getActiveItem() == stack) ? 1.0F: 0.0F);
+				ModelPredicateProviderRegistry.register (item, Identifier.ofDefault("parrying"), (stack, world, entity, i) -> (entity != null && entity.isUsingItem() && entity.getActiveItem() == stack) ? 1.0F: 0.0F);
 			}
 		});
 

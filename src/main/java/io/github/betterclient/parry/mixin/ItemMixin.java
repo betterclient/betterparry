@@ -1,6 +1,7 @@
 package io.github.betterclient.parry.mixin;
 
 import io.github.betterclient.parry.BetterParryMod;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -38,8 +39,8 @@ public class ItemMixin {
 		}
 	}
 
-	@Inject(at = @At(value = "HEAD"), method = "getMaxUseTime", cancellable = true)
-	public void onGetMaxUseTime(ItemStack stack, CallbackInfoReturnable<Integer> cir) {
+	@Inject(at = @At(value = "HEAD"), method = "getUseTicks", cancellable = true)
+	public void onGetMaxUseTime(ItemStack stack, LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
 		if(stack.getItem() instanceof SwordItem) {
 			cir.setReturnValue(72000);
 		}
